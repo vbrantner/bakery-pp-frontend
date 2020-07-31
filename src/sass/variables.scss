@@ -1,0 +1,34 @@
+// src/sass/variables.scss
+
+// Globals
+$body-font-family: 'Roboto', bold;
+$body-font-weight: 600;
+$font-size-root: 17px;
+
+$btn-font-weight: 600 !default;
+// Datatables
+$data-table-regular-header-font-size: 16px;
+$data-table-mobile-row-header-font-weight: 700;
+$data-table-regular-row-font-size: 16px;
+// v-list
+$list-item-dense-title-font-weight: 700;
+$list-item-dense-title-font-size: 0.85rem !default;
+
+// v-btn-nav
+$navigation-drawer-mobile-temporary-elevation: 0 !default;
+
+
+$fab-icon-sizes: (
+  'small': 20
+);
+
+$headings: (
+  'h1': (
+    'size': 3.3125rem,
+    'line-height': 1.15em
+  ),
+  'h2': (
+    'size': 2.25rem,
+    'line-height': 1.5em
+  )
+);
