@@ -117,7 +117,7 @@
                   <template v-slot:item.temperatur="{ item }">
                     <v-text-field
                       class="mt-3"
-                      @input="log"
+                      @input="patchIngredientTemperatur(item)"
                       dense
                       outlined
                       suffix="°C"
@@ -158,6 +158,14 @@ export default {
   methods: {
     log: function (item) {
       console.log(item);
+    },
+    patchIngredientTemperatur(item) {
+      const recipeIngredientID = item.id;
+      const recipeIngredientTemperatur = item.temperatur;
+      const payload = {
+        temperatur: recipeIngredientTemperatur,
+      };
+      this.axios.patch("recipeingredient/" + recipeIngredientID + "/", payload);
     },
     deleteIngredient(item) {
       this.axios
