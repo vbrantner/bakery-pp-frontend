@@ -22,22 +22,33 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12">
-        <v-card class="mx-auto" outlined>
-          <v-card-text>
-            <v-form ref="form">
-              <v-text-field
-                outlined
-                v-model="productName"
-                clearable
-                label="Produktname"
-              ></v-text-field>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-card class="mx-auto" outlined>
+      <v-card-text>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              outlined
+              v-model="productName"
+              clearable
+              label="Produktname"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-autocomplete
+              v-model="recipeID"
+              :items="recipeList"
+              outlined
+              item-text="name"
+              item-value="id"
+              hide-no-data
+              hide-selected
+              label="Rezept"
+              return-object
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
@@ -45,16 +56,26 @@
 import axios from "axios";
 
 export default {
-  created() {},
+  created() {
+    this.getRecipeList();
+  },
   data() {
     return {
       productName: "",
+      recipeList: [{}],
+      recipeID: null,
     };
   },
   methods: {
+    getRecipeList() {
+      this.axios.get("recipes/").then((response) => {
+        this.recipeList = response.data.results;
+      });
+    },
     postProduct: function () {
       axios.post("products/", {
         name: this.productName,
+        recipe: this.recipeID.id,
       });
     },
   },
