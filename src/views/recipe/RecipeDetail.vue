@@ -109,7 +109,8 @@
                 <v-data-table
                   :headers="ingredientTableHeader"
                   :items="recipeDetail.ingredients"
-                  itemsPerPage: 100
+                  sortBy="id"
+                  items-per-page="50"
                   hide-default-footer
                   class="font-weight-bold"
                 >
