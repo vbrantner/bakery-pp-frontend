@@ -109,6 +109,7 @@
                 <v-data-table
                   :headers="ingredientTableHeader"
                   :items="recipeDetail.ingredients"
+                  itemsPerPage: 100
                   hide-default-footer
                   class="font-weight-bold"
                 >
