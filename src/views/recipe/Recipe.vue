@@ -16,7 +16,7 @@
             append-icon="fas fa-search"
             label="Suche"
             hide-details
-            :itemsPerPage="100"
+            :items-per-page="100"
             outlined
             clearable
             class="font-weight-bold"
