@@ -32,7 +32,11 @@
               :item-class="itemClasses"
               class="font-weight-bold"
               @click:row="makeRecipe"
-            ></v-data-table>
+            >
+              <template v-slot:item.action-delete="{ item }">
+                <v-icon large @click.stop="deleteItem(item)">mdi-delete</v-icon>
+              </template>
+            </v-data-table>
           </v-card>
         </v-col>
       </v-row>
@@ -54,6 +58,13 @@ export default {
     },
   },
   methods: {
+    deleteItem(item) {
+      const productionID = item.production_id;
+      confirm("Are you sure you want to delete this item?") &&
+        this.axios.delete(`production/${productionID}/`).then(() => {
+          this.getProductionList();
+        });
+    },
     itemClasses: function (item) {
       if (item.misch_status == true && item.teig_status == false) {
         return "yellow lighten-3";
@@ -114,6 +125,12 @@ export default {
           sortable: false,
           class: "th",
           align: "left",
+        },
+        {
+          text: "Löschen",
+          value: "action-delete",
+          sortable: false,
+          align: "center",
         },
       ],
       date: new Date().toISOString().substr(0, 10),

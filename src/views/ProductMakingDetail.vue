@@ -21,9 +21,21 @@
           <p class="my-1 font-weight-medium">1 Gang: {{ recipe.mixTimeOne }}</p>
           <p class="my-1 font-weight-medium">2 Gang: {{ recipe.mixTimeTwo }}</p>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="3">
           <p class="my-2 text-h6">Soll Teigtemperatur</p>
           <p class="my-1 font-weight-medium">{{ recipe.temperatur }} Grad</p>
+        </v-col>
+        <v-col cols="3">
+          <p class="my-2 text-h6">Ist-Teigtemperatur</p>
+          <v-text-field
+            class="mt-3 font-weight-bold"
+            @input="patchDoughTemperatur()"
+            dense
+            outlined
+            label="Ist-Temperatur"
+            suffix="°C"
+            v-model="latestProductionObj[0].actual_temperatur"
+          ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
@@ -34,13 +46,25 @@
               :items="tableData"
               :disable-select-all="true"
               :headers="tableHeader"
+              class="font-weight-bold"
               show-select
+              sortBy="id"
               hide-default-footer
               :itemsPerPage="100"
               @input="allChecked($event)"
               @item-selected="changeStatus"
             >
               <template v-slot:header.data-table-select></template>
+              <template v-slot:item.temperatur="{ item }">
+                <v-text-field
+                  class="mt-3"
+                  @input="patchIngredientTemperatur(item)"
+                  dense
+                  outlined
+                  suffix="°C"
+                  v-model="item.temperatur"
+                ></v-text-field>
+              </template>
             </v-data-table>
           </v-card>
         </v-col>
@@ -69,6 +93,21 @@ export default {
     this.getProductionList();
   },
   methods: {
+    patchDoughTemperatur() {
+      console.log(this.recipe);
+      const payload = {
+        actual_temperatur: this.latestProductionObj[0].actual_temperatur,
+      };
+      this.axios.patch("production/" + this.ProductionID + "/", payload);
+    },
+    patchIngredientTemperatur(item) {
+      const recipeIngredientID = item.id;
+      const recipeIngredientTemperatur = item.temperatur;
+      const payload = {
+        temperatur: recipeIngredientTemperatur,
+      };
+      this.axios.patch("recipeingredient/" + recipeIngredientID + "/", payload);
+    },
     genSelected: function (data) {
       for (var item in data) {
         if (data[item].checked == true) {
@@ -109,6 +148,15 @@ export default {
         this.recipe = response.data;
       });
     },
+    getLatestProduction() {
+      this.axios
+        .get(
+          `production/?checked=true&recipe=${this.tableData[0].rezept_id}&finished=`
+        )
+        .then((response) => {
+          this.latestProductionObj = response.data.results;
+        });
+    },
     getProductionList: function () {
       this.axios
         .get("production/" + this.ProductionID + "/")
@@ -119,6 +167,7 @@ export default {
     updateProduction: function (bool) {
       let payload = {
         checked: bool,
+        finished: new Date(),
       };
       this.axios.patch("production/" + this.ProductionID + "/", payload);
     },
@@ -129,6 +178,7 @@ export default {
           this.tableData = response.data;
           this.getRecipe(response.data[0].slug);
           this.genSelected(response.data);
+          this.getLatestProduction();
         })
         .catch((e) => {
           this.errors.push(e);
@@ -147,6 +197,7 @@ export default {
   data() {
     return {
       selected: [],
+      latestProductionObj: [{}],
       valid: false,
       date: new Date().toISOString().substr(0, 10),
       tllcime: new Date().toTimeString().split(" ")[0],
@@ -171,6 +222,11 @@ export default {
           text: "Einheit",
           value: "einheit",
           sortable: false,
+        },
+        {
+          text: "Ist-Temperatur",
+          value: "temperatur",
+          width: "10%",
         },
       ],
     };
