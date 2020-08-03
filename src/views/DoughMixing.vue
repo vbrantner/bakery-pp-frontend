@@ -28,8 +28,8 @@
               hide-default-footer
               :headers="mixingDataHeader"
               :items="mixingData"
-              :items-per-page="10"
               :item-class="itemClasses"
+              items-per-page="100"
               class="font-weight-bold"
               @click:row="makeRecipe"
             >
