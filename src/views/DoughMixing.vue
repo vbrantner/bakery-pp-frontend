@@ -30,6 +30,7 @@
               :items="mixingData"
               :item-class="itemClasses"
               items-per-page="100"
+              groupBy="mischdatum"
               class="font-weight-bold"
               @click:row="makeRecipe"
             >

@@ -69,6 +69,16 @@
                   v-model="item.temperatur"
                 ></v-text-field>
               </template>
+              <template slot="body.append">
+                <tr class="">
+                  <th class="title">Summe</th>
+                  <th class="title"></th>
+                  <th class="title text-right">
+                    {{ sumField("menge") }}
+                  </th>
+                  <th class="title">kg</th>
+                </tr>
+              </template>
             </v-data-table>
           </v-card>
         </v-col>
@@ -97,6 +107,13 @@ export default {
     this.getProductionList();
   },
   methods: {
+    sumField(key) {
+      // sum data in give key (property)
+      return this.tableData.reduce(
+        (a, b) => parseFloat(a) + (parseFloat(b[key]) || 0),
+        0
+      );
+    },
     patchDoughTemperatur() {
       console.log(this.recipe);
       const payload = {
