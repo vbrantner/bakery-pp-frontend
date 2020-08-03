@@ -18,8 +18,12 @@
       <v-row>
         <v-col cols="6">
           <p class="my-2 text-h6">Mischzeit</p>
-          <p class="my-1 font-weight-medium">1 Gang: {{ recipe.mixTimeOne }}</p>
-          <p class="my-1 font-weight-medium">2 Gang: {{ recipe.mixTimeTwo }}</p>
+          <p class="my-1 font-weight-medium">
+            1 Gang: {{ recipe.mixTimeOne }} Minuten
+          </p>
+          <p class="my-1 font-weight-medium">
+            2 Gang: {{ recipe.mixTimeTwo }} Minuten
+          </p>
         </v-col>
         <v-col cols="3">
           <p class="my-2 text-h6">Soll Teigtemperatur</p>
