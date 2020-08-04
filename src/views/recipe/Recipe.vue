@@ -16,7 +16,6 @@
             append-icon="fas fa-search"
             label="Suche"
             hide-details
-            :items-per-page="100"
             outlined
             clearable
             class="font-weight-bold"
@@ -30,7 +29,8 @@
               :headers="recipeListHeaders"
               :items="recipesList"
               :search="search"
-              :sort-by="['id']"
+              sortBy="id"
+              itemsPerPage="100"
               hide-default-footer
               @click:row="handleClick"
               class="font-weight-bold"
