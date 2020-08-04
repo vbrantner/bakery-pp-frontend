@@ -116,7 +116,9 @@ export default {
             0
           ) * 1000
         ) / 1000
-      ).toFixed(3);
+      )
+        .toFixed(3)
+        .replace(".", ",");
     },
     patchDoughTemperatur() {
       console.log(this.recipe);

@@ -106,7 +106,8 @@ export default {
     createCharge: function () {
       let list = [];
       let chargeMenge = this.selected.chargemenge;
-      let amount = this.selected.menge;
+      // important since raw sql query returns comma spearated values
+      let amount = parseFloat(this.selected.menge);
       if (amount > chargeMenge) {
         var count = Math.ceil(amount / chargeMenge);
         var AVGAmount = Math.round((amount * 100) / count) / 100;
@@ -115,6 +116,7 @@ export default {
             created: new Date().toISOString(),
             bake_date: this.selected.backdatum,
             mix_date: this.selected.mischdatum,
+            actual_temperatur: 20,
             checked: false,
             orders: this.selected.orderid,
             amount: AVGAmount,
@@ -127,6 +129,7 @@ export default {
           created: new Date().toISOString(),
           bake_date: this.selected.backdatum,
           mix_date: this.selected.mischdatum,
+          actual_temperatur: 20,
           checked: false,
           orders: this.selected.orderid,
           amount: this.selected.menge,
