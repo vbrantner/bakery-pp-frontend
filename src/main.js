@@ -12,7 +12,7 @@ import store from "./store";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(VueCookies);
-Vue.axios.defaults.baseURL = "https://bakery-erp-backend.herokuapp.com/api/";
+Vue.axios.defaults.baseURL = `${process.env.VUE_APP_BACKEND_URL}`;
 Vue.axios.defaults.headers.common["Authorization"] = process.env.VUE_APP_TOKEN;
 
 var firebaseConfig = {
