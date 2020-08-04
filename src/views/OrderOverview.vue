@@ -30,22 +30,40 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-dialog v-model="dialog" max-width="800">
+      <v-dialog v-model="dialog" max-width="1000">
         <v-card>
           <v-card-title class="headline font-weight-bold">
             {{ selected.rezept }} am
             {{ selected.produktionsdatum | formatDate }}
           </v-card-title>
 
-          <v-card-text class="headline font-weight-bold"
-            >wird aufgeteilt in folgende Chargen:</v-card-text
-          >
           <v-card-text class="headline font-weight-bold">
-            <template v-for="(item, index) in productionCharge">
-              <p v-bind:key="index" class="font-weight'bold">
-                Charge {{ index + 1 }}: Menge: {{ item.amount }}
-              </p>
-            </template>
+            <v-row>
+              <v-col cols="6">
+                wird aufgeteilt in folgende Chargen:
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <template v-for="(item, index) in productionCharge">
+                  <p v-bind:key="index" class="font-weight'bold">
+                    Charge {{ index + 1 }}: Menge: {{ item.amount }}
+                  </p>
+                </template>
+              </v-col>
+              <v-col cols="3">
+                <v-btn @click="changeCharge('-')" depressed>
+                  <v-icon left>fas fa-minus</v-icon>
+                  Menge verringern</v-btn
+                >
+              </v-col>
+              <v-col cols="3">
+                <v-btn @click="changeCharge('+')" depressed color="primary">
+                  <v-icon left>fas fa-plus</v-icon>
+                  Menge herhöhen</v-btn
+                >
+              </v-col>
+            </v-row>
           </v-card-text>
 
           <v-card-actions>
@@ -120,6 +138,17 @@ export default {
     },
   },
   methods: {
+    changeCharge(operator) {
+      for (var item in this.productionCharge) {
+        if (operator == "-") {
+          this.productionCharge[item].amount--;
+        } else {
+          this.productionCharge[item].amount++;
+        }
+        this.productionCharge[item].amount =
+          Math.round(this.productionCharge[item].amount * 1000) / 1000;
+      }
+    },
     postProductionHelper: function (list) {
       for (var item in list) {
         this.postProduction(list[item]);
