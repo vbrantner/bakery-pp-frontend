@@ -109,10 +109,14 @@ export default {
   methods: {
     sumField(key) {
       // sum data in give key (property)
-      return this.tableData.reduce(
-        (a, b) => parseFloat(a) + (parseFloat(b[key]) || 0),
-        0
-      );
+      return (
+        Math.round(
+          this.tableData.reduce(
+            (a, b) => parseFloat(a) + (parseFloat(b[key]) || 0),
+            0
+          ) * 1000
+        ) / 1000
+      ).toFixed(3);
     },
     patchDoughTemperatur() {
       console.log(this.recipe);
