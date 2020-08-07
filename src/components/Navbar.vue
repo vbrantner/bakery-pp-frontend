@@ -65,7 +65,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: false,
-    activeBtn: 1,
+    activeBtn: 0,
     showNav: true,
     items: [
       {
@@ -83,16 +83,6 @@ export default {
         icon: "mdi-calendar",
         text: "Bestellungen",
         route: "/bestellungen",
-      },
-      {
-        icon: "mdi-history",
-        text: "Rohstoffverbrauch",
-        route: "/ingredientconsumption",
-      },
-      {
-        icon: "mdi-history",
-        text: "Produktionhistorie",
-        route: "/productionhistory",
       },
     ],
   }),

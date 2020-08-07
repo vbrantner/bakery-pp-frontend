@@ -58,7 +58,6 @@
                   outlined
                   v-model="chargeAmount"
                   clearable
-                  type="number"
                   suffix="kg"
                   label="Chargengröße"
                   required
@@ -72,6 +71,7 @@
                   outlined
                   v-model="mixTimeOne"
                   clearable
+                  suffix="Minuten"
                   label="Mischzeit 1"
                   placeholder="10:00"
                   required
@@ -84,6 +84,7 @@
                   v-model="mixTimeTwo"
                   clearable
                   label="Mischzeit 2"
+                  suffix="Minuten"
                   placeholder="10:00"
                   required
                 ></v-text-field>
@@ -106,12 +107,22 @@
           <v-card class="pa-5" outlined>
             <v-row>
               <v-col>
+                <DialogNewIngredient
+                  :getRecipe="getRecipe"
+                  :recipeID="recipeDetail.id"
+                />
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
                 <v-data-table
                   :headers="ingredientTableHeader"
                   :items="recipeDetail.ingredients"
                   sortBy="id"
-                  items-per-page="50"
                   hide-default-footer
+                  itemsPerPage="100"
+                  height="600"
+                  fixed-header
                   class="font-weight-bold"
                 >
                   <template v-slot:item.temperatur="{ item }">
@@ -130,14 +141,6 @@
                     >
                   </template>
                 </v-data-table>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <DialogNewIngredient
-                  :getRecipe="getRecipe"
-                  :recipeID="recipeDetail.id"
-                />
               </v-col>
             </v-row>
           </v-card>

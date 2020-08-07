@@ -28,6 +28,10 @@
             <v-data-table
               :headers="ingredientListHeaders"
               :items="ingredientList"
+              itemsPerPage="100"
+              height="600"
+              fixed-header
+              hide-default-footer
               :search="search"
               :sort-by="['id']"
               class="font-weight-bold"

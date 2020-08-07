@@ -31,6 +31,10 @@
               :search="search"
               :sort-by="['id']"
               class="font-weight-bold"
+              hide-default-footer
+              itemsPerPage="100"
+              height="600"
+              fixed-header
             >
               <template v-slot:item.action-edit="{ item }">
                 <v-icon large @click="editItem(item)">
@@ -94,9 +98,8 @@ export default {
   },
   methods: {
     deleteProduct: function () {
-      this.axios.delete("products/" + this.productID + "/").then((response) => {
-        console.log(response);
-        this.getProduct();
+      this.axios.delete("products/" + this.productID + "/").then(() => {
+        this.getProductList();
       });
       this.dialogDelete = false;
     },
@@ -126,7 +129,7 @@ export default {
     },
     deleteItem: function (item) {
       console.log(item);
-      this.getIngredient(item);
+      this.getProduct(item);
       this.dialogDelete = true;
     },
     rowClick: function (value) {

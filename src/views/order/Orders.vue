@@ -19,6 +19,9 @@
               :sortDesc="true"
               :groupDesc="true"
               class="font-weight-bold"
+              hide-default-footer
+              itemsPerPage="100"
+              height="600"
               group-by="date"
             >
               <template v-slot:group.header="{ group, headers }">
