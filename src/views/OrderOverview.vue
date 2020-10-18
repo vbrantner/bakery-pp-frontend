@@ -14,6 +14,7 @@
               hide-default-footer
               class="font-weight-bold"
               groupBy="mischdatum_tag"
+              disable-pagination
               :groupDesc="true"
               :headers="productsToMakeHeader"
               :items="productsToMake"
