@@ -103,6 +103,15 @@
         </v-card-text>
       </v-card>
       <v-row>
+        <v-col cols="4">
+          <v-switch
+            v-model="editRecipeSwitch"
+            inset
+            label="Rezeptänderungsmodus"
+          ></v-switch>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12">
           <v-card class="pa-5" outlined>
             <v-row>
@@ -120,11 +129,23 @@
                   :items="recipeDetail.ingredients"
                   sortBy="id"
                   hide-default-footer
-                  itemsPerPage="100"
+                  disable-pagination
                   height="600"
                   fixed-header
                   class="font-weight-bold"
                 >
+                  <template
+                    v-if="editRecipeSwitch"
+                    v-slot:item.amount="{ item }"
+                  >
+                    <v-text-field
+                      class="mt-3"
+                      @input="editRecipeAmount(item)"
+                      dense
+                      outlined
+                      v-model="item.amount"
+                    ></v-text-field>
+                  </template>
                   <template v-slot:item.temperatur="{ item }">
                     <v-text-field
                       class="mt-3"
@@ -161,6 +182,13 @@ export default {
   methods: {
     log: function (item) {
       console.log(item);
+    },
+    editRecipeAmount(item) {
+      let url = `recipeingredient/${item.id}/`;
+      let payload = {
+        amount: item.amount,
+      };
+      this.axios.patch(url, payload);
     },
     patchIngredientTemperatur(item) {
       const recipeIngredientID = item.id;
@@ -220,28 +248,34 @@ export default {
       mixTimeTwo: "",
       chargeAmount: "",
       temperatur: "",
+      editRecipeSwitch: false,
       ingredientTableHeader: [
         {
           text: "Zutat",
           value: "ingredient_name",
+          sortable: false,
         },
         {
           text: "Menge",
           value: "amount",
           align: "end",
+          sortable: false,
         },
         {
           text: "Einheit",
           value: "unit_name",
+          sortable: false,
         },
         {
           text: "Ist-Temperatur",
           value: "temperatur",
           width: "10%",
+          sortable: false,
         },
         {
           text: "Löschen",
           value: "action-delete",
+          sortable: false,
         },
       ],
       slug: this.$route.params.recipeSlug,
