@@ -30,7 +30,7 @@
           <p class="my-1 font-weight-medium">{{ recipe.temperatur }} Grad</p>
         </v-col>
         <v-col cols="3">
-          <p class="my-2 text-h6">Ist-Teigtemperatur</p>
+          <p class="my-2 text-h6">Ist-Teigtemperatur aus dem letzten Teig</p>
           <v-text-field
             class="mt-3 font-weight-bold"
             @input="patchDoughTemperatur()"
@@ -40,6 +40,7 @@
             suffix="°C"
             v-model="latestProductionObj[0].actual_temperatur"
           ></v-text-field>
+          <p class="my-2 text-h6">Beim fertig stellen, neue Temperatur eintragen!</p>
         </v-col>
       </v-row>
       <v-row>
@@ -175,7 +176,7 @@ export default {
     getLatestProduction() {
       this.axios
         .get(
-          `production/?checked=true&recipe=${this.tableData[0].rezept_id}&finished=`
+          `production/?checked=true&finished=&ordering=-finished&recipe=${this.tableData[0].rezept_id}`
         )
         .then((response) => {
           this.latestProductionObj = response.data.results;
@@ -221,6 +222,7 @@ export default {
   data() {
     return {
       selected: [],
+      toggleRecipeEdit: false,
       latestProductionObj: [{}],
       valid: false,
       date: new Date().toISOString().substr(0, 10),
